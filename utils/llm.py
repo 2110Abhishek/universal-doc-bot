@@ -6,12 +6,15 @@ from langchain_community.chat_models import ChatOpenAI
 # Load local .env
 load_dotenv()
 
-# Use Streamlit secret first, fallback to .env
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+# Safely get OPENAI_API_KEY
+if hasattr(st, "secrets") and "OPENAI_API_KEY" in st.secrets:
+    OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+else:
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Initialize the OpenAI chat model
 llm = ChatOpenAI(
-    model="gpt-3.5-turbo",   # change to "gpt-4" if you have access
+    model="gpt-3.5-turbo",  # or "gpt-4" if you have access
     temperature=0,
     openai_api_key=OPENAI_API_KEY
 )

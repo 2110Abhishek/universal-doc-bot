@@ -1,9 +1,4 @@
 import streamlit as st
-from dotenv import load_dotenv
-import os
-
-# Load .env locally
-load_dotenv()
 
 from utils.document_loader import load_and_chunk_pdf
 from utils.vector_store import VectorDB
@@ -32,12 +27,12 @@ query = st.text_input("Ask your question:")
 if query:
     # Search vector DB
     doc_context = vector_db.search(query) if vector_db.db else []
-    
+
     # Optional web search context
     web_context = web_search(query) if needs_web_search(query) else None
-    
+
     # Generate answer
     answer = generate_answer(query, doc_context, web_context)
-    
+
     st.subheader("Answer:")
     st.write(answer)
