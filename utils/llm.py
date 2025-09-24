@@ -1,15 +1,19 @@
 import os
+import streamlit as st
 from dotenv import load_dotenv
 from langchain_community.chat_models import ChatOpenAI
 
-# Load environment variables
+# Load local .env
 load_dotenv()
+
+# Use Streamlit secret first, fallback to .env
+OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 
 # Initialize the OpenAI chat model
 llm = ChatOpenAI(
-    model="gpt-3.5-turbo",   # You can change to gpt-4 if you have access
+    model="gpt-3.5-turbo",   # change to "gpt-4" if you have access
     temperature=0,
-    openai_api_key=os.getenv("OPENAI_API_KEY")
+    openai_api_key=OPENAI_API_KEY
 )
 
 def generate_answer(query, doc_context=None, web_context=None):
