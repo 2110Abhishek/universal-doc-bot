@@ -1,0 +1,10 @@
+langchain
+openai
+chromadb
+faiss-cpu
+sentence-transformers
+pypdf
+streamlit
+gradio
+requests
+python-dotenv
