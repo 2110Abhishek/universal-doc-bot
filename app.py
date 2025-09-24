@@ -1,5 +1,4 @@
 import streamlit as st
-
 from utils.document_loader import load_and_chunk_pdf
 from utils.vector_store import VectorDB
 from utils.query_router import needs_web_search
@@ -32,7 +31,9 @@ if query:
     web_context = web_search(query) if needs_web_search(query) else None
 
     # Generate answer
-    answer = generate_answer(query, doc_context, web_context)
-
-    st.subheader("Answer:")
-    st.write(answer)
+    try:
+        answer = generate_answer(query, doc_context, web_context)
+        st.subheader("Answer:")
+        st.write(answer)
+    except Exception as e:
+        st.error(f"Error generating answer: {e}")

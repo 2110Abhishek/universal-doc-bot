@@ -1,5 +1,5 @@
 ROUTING_KEYWORDS = [
-    "latest", "current", "2024", "now", "vs", "alternatives", 
+    "latest", "current", "2024", "now", "vs", "alternatives",
     "comparison", "price", "trend", "stock", "news", "explain", "how"
 ]
 

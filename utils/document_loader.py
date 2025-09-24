@@ -5,8 +5,9 @@ def load_and_chunk_pdf(file_path):
     reader = PdfReader(file_path)
     text = ""
     for page in reader.pages:
-        text += page.extract_text() + "\n"
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text + "\n"
 
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-    chunks = splitter.split_text(text)
-    return chunks
+    return splitter.split_text(text)

@@ -4,16 +4,14 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
-# Load local .env
 load_dotenv()
 
-# Safely get OPENAI_API_KEY
-if hasattr(st, "secrets") and "OPENAI_API_KEY" in st.secrets:
-    OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-else:
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = (
+    st.secrets["OPENAI_API_KEY"]
+    if hasattr(st, "secrets") and "OPENAI_API_KEY" in st.secrets
+    else os.getenv("OPENAI_API_KEY")
+)
 
-# Initialize embeddings
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
 class VectorDB:
@@ -21,7 +19,8 @@ class VectorDB:
         self.db = None
 
     def build_store(self, chunks):
-        self.db = FAISS.from_texts(chunks, embeddings)
+        if chunks:
+            self.db = FAISS.from_texts(chunks, embeddings)
 
     def search(self, query, k=3):
         if not self.db:
